@@ -1,0 +1,50 @@
+{% extends 'base_manager.html' %}
+
+{% block user %}
+    <h2 class="col-8 mr-1 no-gutters">Requests Dashboard</h2>
+    <h6 class="col-3 col-md-4 align-items-end mr-auto">Logged as: {{user}} <a href="/dropssession">(Logout)</a></h6>
+{% endblock %}
+
+{% block contenido %}
+    
+<table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Folio</th>
+        <th scope="col">Employee</th>
+        <th scope="col">Department</th>
+        <th scope="col">Submitted on</th>
+        <th scope="col">Authorization</th>
+        <th scope="col">Action Required</th>
+        <th scope="col">Total</th>
+        <th scope="col">Authorize/View</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      
+        {% for data in data_list %}
+
+        <tr>
+            <th scope="row">{{data['folio']}}</th>
+            <td>{{data['employee_id']}}</td>
+            <td>{{data['department']}}</td>
+            <td>{{data['submit_date']}}</td>
+            <td>{{data['authorization']}}</td>
+            {% if data['needs_authorization'] %}
+              <td>Yes</td>
+            {% else %}
+              <td>No</td>
+            {% endif %}
+
+            <td>{{data['total']}}</td>
+            <td><a href="/authorize?folio={{data['folio']}}">View/Authorize</a></td>
+        </tr>
+        {% endfor %}
+       
+           
+    </tbody>
+  </table>
+
+
+{% endblock contenido %}

@@ -1,0 +1,166 @@
+{% extends "base_manager.html" %}
+
+{% block user %}
+    <h2 class="col-8 mr-1 no-gutters">Request #{{data['request_info']['folio']}}</h2>
+    <h6 class="col-3 col-md-4 align-items-end mr-auto">Logged as: {{user}} <a href="/dropssession">(Logout)</a></h6>
+{% endblock %}
+
+
+{% block contenido %}
+
+<form method="POST" action="/authorization_response?folio={{data['request_info']['folio']}}&department={{data['request_info']['auth_from']}}">
+  <h3 class="col-8 mr-1">Details</h3>
+
+   <div class="container" id="request_details" >
+      <div class="row">
+          
+      
+       <div class="col-6 mr-auto">
+           <div class="form-group">
+               <label for="purchase_type">Purchase Type</label>
+               <input type="text" id="purchase_type" value="{{data['request_info']['purchase_type']}}"  name="purchase_type" class="form-control" readonly>
+           </div>
+
+           
+           <div class="form-group">
+                   <label for="cost_center">Cost Center</label>
+                   <input type="text" id="cost_center" value= "{{data['request_info']['cost_center']}}"  class="form-control" readonly>
+                   
+           </div>
+       </div>
+
+       <div class="col-6 ml-auto">
+                             
+           <div class="form-group">
+               <label for="account_number">Account Number</label>
+               <input id="account_number" class="form-control" type="text" name="account_number" value="{{data['request_info']['account_number']}}" readonly>
+           </div>
+       
+           <div class="form-group">
+               <label for="department_unit">Department Unit</label>
+               <input id="department_unit" class="form-control" type="text" name="department_unit" value="{{data['request_info']['department_name']}}" readonly>
+           </div>
+           
+           
+
+       </div>
+
+       <div class="form-group col-12">
+                               <label for="comments" id="comments">Comments</label>
+                               <input id="comments" name="comments" maxlength="200" class="form-control" type="text" value="{{data['request_info']['comments']}}" readonly>
+       </div>
+
+       
+   </div>
+   </div>    
+   <h3 class="col-8 mr-1 no-gutters">Requested Items</h3>
+   
+    {% for item in data['item_list']  %}
+              <div class="container " id="item_list">
+                      <div id="item" class="pt-3">
+                              <div class="row">
+                                  <div class="form-group col-12">
+                                          <label for="description" id="descriptionLabel">Description for Item</label>
+                                          <input id="description name="description_1" value="{{item['description']}}" class="form-control" type="text" readonly>
+                                  </div>
+                                  
+                              </div>
+                              
+                              <div class="row">
+                                                  
+                                  <div class="form-group col-2">
+                                      <label for="unit-measure">U. Measure</label>
+                                      <input type="text" id="unit_measure" value="{{item['unit_measure']}}" class="form-control" readonly>
+                                  </div>
+
+                                  
+                                  <div class="form-group col-2">
+                                          <label for="chemical_1">Chemical</label>
+                                          <input id="chemical" name="chemical" class="form-control" value="{{item['chemical']}}" type="text" readonly>
+                                      </div>
+                                  <div class="form-group col-2">
+                                      <label for="unit_price">Unit Price</label>
+                                      <input id="unit_price" name="unit_price" class="form-control" value="{{item['unit_price']}}" type="text" readonly>
+                                  </div>
+                      
+                                  <div class="form-group col-2">
+                                      <label for="quantity_1">Quantity</label>
+                                      <input id="quantity_1" name="quantity" class="form-control" type="text" value="{{item['quantity']}}" readonly>
+                                  </div>
+                                   
+                                  <div class="form-group col-2">
+                                      <label for="Total Item Price">Item Total</label>
+                                      <input id="quantity" name="quantity" class="form-control" type="text" value="${{item['item_total']}}" readonly>
+                                  </div> 
+
+                              </div> 
+                          </div>
+                  </div>  
+
+    {% endfor %}
+    <div>
+        <h4 class="col-8 mr-1">Subtotal: ${{data['request_info']['total']}} USD</h4>
+        
+    </div>              
+    
+    <div class="container" id="authorization" >
+      
+        {% if data['request_info']['needs_authorization'] == true %}
+            <div class="row py-3">
+                <div class=" form-group col-8">
+                    <label for="authorize">Authorize Request?</label>
+                    <select class="form-control" name="authorize" id="authorize" required>
+                        <option value="" selected></option>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
+        
+            <div class="row py-3">
+                    <button type="submit" class="btn btn-lg btn-primary btn-block form-control mx-auto py-auto"
+                    style="width: 200px;">Submit</button>
+            </div>
+
+        {% else %}
+            <br>
+            <h5 class="col-12 mr-1 ">You have already sent a authorization response, no further action is needed</h5>
+            
+            
+            {% if data['request_info']['auth_response'] == true %}
+                <div class="row py-3">
+                    <div class=" form-group col-8">
+                        <label for="authorize">Your authorization Response:</label>
+                        <select class="form-control" name="authorize" id="authorize" disabled required>
+                            <option value="" ></option>
+                            <option value="0">No</option>
+                            <option value="1" selected>Yes</option>
+                        </select>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row py-3">
+                    <div class=" form-group col-8">
+                        <label for="authorize">Authorize Request?</label>
+                        <select class="form-control" name="authorize" id="authorize" disabled required>
+                            <option value="" ></option>
+                            <option value="0" selected>No</option>
+                            <option value="1">Yes</option>
+                        </select>
+                    </div>
+                </div>
+            
+            {% endif %}
+        {% endif %}
+            
+
+    </div>
+               
+     
+              
+    </form>
+   
+   
+
+
+{% endblock contenido %}

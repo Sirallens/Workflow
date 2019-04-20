@@ -1,0 +1,250 @@
+
+{% extends "base.html" %}
+
+
+{% block morehead %}
+
+
+{% endblock morehead %}
+
+{% block user %}
+    <h2 class="col-8">American Order Request</h2>
+    <h6 class="col-3 col-md-4">Logged as: {{user}} <a href="/dropssession">(Logout)</a></h6>
+{% endblock %}
+
+{% block contenido %}
+ 
+<form method="POST">
+   
+    <div class="container" id="request_details" >
+       <div class="row">
+           
+       
+        <div class="col-6 mr-auto">
+            <div class="form-group">
+                <label for="purchase_type">Purchase Type</label>
+                <input type="text" id="purchase_type" value="MRO" name="purchase_type" class="form-control" readonly>
+            </div>
+
+            
+            <div class="form-group">
+                    <label for="cost_center">Cost Center</label>
+                    <select class="form-control" name="cost_center" id="cost_center" required>
+                        {% for center in centers_dict  %}
+                            <option value="{{centers_dict[center]}}" >{{centers_dict[center]}} - {{center}}</option>
+                        {% endfor %}    
+                            
+                    </select>
+                    
+            </div>
+        </div>
+
+        <div class="col-6 ml-auto">
+                              
+            <div class="form-group">
+                <label for="account_number">Account Number</label>
+                <input id="account_number" class="form-control" type="text" name="account_number" value="finance" readonly>
+            </div>
+        
+            <div class="form-group">
+                <label for="department_unit">Department Unit</label>
+                <input id="department_unit" class="form-control" type="text" name="department_unit" value={{department}} required>
+            </div>
+            
+            
+
+        </div>
+
+        <div class="form-group col-12">
+                                <label for="comments" id="comments">Comments</label>
+                                <input id="comments" name="comments" maxlength="200" class="form-control" type="text" >
+        </div>
+
+
+        <button class="btn btn-lg btn-primary col-2  ml-auto py-2" id="add_item"  type="button">Add an Item</button>
+    </div>
+    </div>    
+    
+    <div class="container " id="item_list">
+            <div id="item" class="pt-3">
+                    <div class="row">
+                        <div class="form-group col-12">
+                                <label for="description_1" id="descriptionLabel">Description for Item 1</label>
+                                <input id="description_1" name="description_1" maxlength="100" class="form-control" type="text" >
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="row">
+                                        
+                        <div class="form-group col-2">
+                            <label for="unit-measure_1">Units of Measure</label>
+                            <select class="form-control" name="unit_measure_1" id="unit-measure_1" required>
+                                    <option value="pcs">PCS</option>
+                                    <option value="mts">Meters</option>
+                                    <option value="in" >Inches</option>
+                                    <option value="ft">Feet</option>
+                                    <option value="lt">Liters</option>
+                                    <option value="gal">Galons</option>
+                                </select>
+                        </div>
+
+                        
+                        <div class="form-group col-2">
+                                <label for="chemical_1">Chemical</label>
+                                <select class="form-control" name="chemical_1" id="chemical_1" required>
+                                        <option value="0" selected >No</option>
+                                        <option value="1" >Yes</option>
+                                        
+                                </select>
+                            </div>
+                        <div class="form-group col-2">
+                            <label for="unit_price_1">Unit Price</label>
+                            <input id="unit_price_1" name="unit_price_1" class="form-control" type="text" 
+                            pattern="^[0-9]{0,}(\.[0-9]{0,2})$" 
+                                title='Enter Valid' required>
+                        </div>
+            
+                        <div class="form-group col-2">
+                            <label for="quantity_1">Quantity</label>
+                            <input id="quantity_1" name="quantity_1" class="form-control" type="number" pattern="^[0-9]{0,}" title='Enter Valid Item Price' required>
+                        </div>
+            
+                                        
+                        <div class="form-group">
+                            <label for="file_1">File (to be implemented)</label>
+                            <input type="file" class="form-control-file" id="file_1" name="file_1" >
+                        </div>
+            
+                    </div> 
+                </div>
+        </div>  
+        <div class="row py-3">
+                <button type="submit" class="btn btn-lg btn-primary btn-block form-control mx-auto py-auto"
+                 style="width: 200px;">Submit</button>
+        </div>
+    
+
+    
+    
+</form>
+
+
+
+<div id="item-blueprint" class="pt-3" style="display:none">
+        <div class="row">
+                
+            <div class="form-group col-12">
+                
+                    <label for="description_" id="description_label">Description Item 1</label>
+                    <input id="description_" maxlength="100" name="description_" class="form-control" type="text" >
+            </div>
+            
+        </div>
+        
+        <div class="row" >
+                            
+            <div class="form-group col-2">
+                <label for="unit-measure_">Units of Measure</label>
+                <select class="form-control" name="unit_measure_" id="unit-measure_" required>
+                        <option value="pcs">PCS</option>
+                        <option value="mts">Meters</option>
+                        <option value="in" >Inches</option>
+                        <option value="ft">Feet</option>
+                        <option value="lt">Liters</option>
+                        <option value="gal">Galons</option>
+                    </select>
+            </div>
+            <div class="form-group col-2">
+                    <label for="chemical_">Chemical</label>
+                    <select class="form-control" name="chemical_" id="chemical_" required>
+                            <option value="0" selected >No</option>
+                            <option value="1">Yes</option>
+                            
+                    </select>
+                </div>
+            <div class="form-group col-2">
+                <label for="unit_price_">Unit Price</label>
+                <input id="unit-price_" name="unit_price_" class="form-control" type="text" pattern="^[0-9]{0,}(\.[0-9]{0,2})$" 
+                    title='Enter Valid Item Price' required>
+            </div>
+
+            <div class="form-group col-2">
+                <label for="quantity_">Quantity</label>
+                <input id="quantity_" name="quantity_" class="form-control" type="number" pattern="^[0-9]{0,}" title='Enter Valid Item Price' required>
+            </div>
+
+                            
+            <div class="form-group">
+                <label for="file_">File (optional)</label>
+                <input type="file" class="form-control-file" id="file_" name="file_" " >
+            </div>
+
+        </div> 
+    </div>    
+
+
+
+{% endblock %}
+
+
+
+{% block customScript %}
+<script>
+
+        
+        $(document).ready(function(){
+    
+            current_id = 1;
+            $('#add_item').click(function(){
+                nextElement($('#item-blueprint'));
+            })
+
+
+            $('#remove_item').click(function(){
+                nextElement($('#item-blueprint'));
+            })
+
+
+            function nextElement(element){
+                var newElement = element.clone();
+
+                current_id = current_id + 1;
+                var id = current_id;
+                
+                
+                $(newElement).attr("id", "Item"+id);
+                $(newElement).find("#description_").attr("name","description_"+id);
+                $(newElement).find("#description_label").html("Description for Item "+id);
+                $(newElement).find("#unit-measure_").attr("name","unit_measure_"+id);
+                $(newElement).find("#chemical_").attr("name","chemical_"+id);
+                $(newElement).find("#unit-price_").attr("name","unit_price_"+id);
+                $(newElement).find("#quantity_").attr("name","quantity_"+id);
+                $(newElement).find("#file_").attr("name","file_"+id);
+                
+                $(newElement).removeAttr("style");
+                
+                
+                newElement.appendTo($("#item_list"));
+
+                
+            }
+            
+    
+            if ( window.history.replaceState ) {
+                window.history.replaceState( null, null, window.location.href );
+              }
+    
+        });
+            
+        
+    
+    
+    
+    </script>
+{% endblock customScript %}
+
+
+
+
+
