@@ -76,6 +76,7 @@ class request(db.Model):
     total = db.Column(db.Float(precision=2), nullable=True)
     comments = db.Column(db.String(256), nullable=True)
     file = db.Column(MEDIUMBLOB(), nullable=True)
+    filename = db.Column(db.String(50), nullable=True)
 
 
 class authorization(db.Model):

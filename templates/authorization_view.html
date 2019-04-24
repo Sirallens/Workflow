@@ -52,6 +52,14 @@
 
        
    </div>
+    <div class="row">
+        {% if data['request_info']['attachement'] %}
+        <h5>There is a provided attachement for more information: </h5>
+        <a href="/download-file?folio={{data['request_info']['folio']}}"><button class="btn btn-primary" type="button" >Download Attachment</button></a>
+                {% endif %}
+
+    </div>
+
    </div>    
    <h3 class="col-8 mr-1 no-gutters">Requested Items</h3>
    

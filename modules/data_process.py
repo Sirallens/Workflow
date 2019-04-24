@@ -66,7 +66,19 @@ def data_processing(object, db, g):
                                total=total
                                )
 
+    if 'input_file' in object.files:
+            file = object.files['input_file']
+            print('guardar achivo')
+            print(file.filename)
+            if file.filename != '':
+                new_request.file = file.read()
+                new_request.filename = file.filename
+
+
+
     try:
+
+        
 
         db.session.add(new_request)
 

@@ -14,7 +14,7 @@
 
 {% block contenido %}
  
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
    
     <div class="container" id="request_details" >
        <div class="row">
@@ -56,10 +56,14 @@
         </div>
 
         <div class="form-group col-12">
-                                <label for="comments" id="comments">Comments</label>
-                                <input id="comments" name="comments" maxlength="200" class="form-control" type="text" >
+            <label for="comments" id="comments">Comments</label>
+            <input id="comments" name="comments" maxlength="200" class="form-control" type="text" >
         </div>
-
+        
+        <div class="col-6">
+            <label for="file">File</label>
+            <input type="file" class="form-control-file" id="file" name="input_file" >
+        </div>
 
         <button class="btn btn-lg btn-primary col-2  ml-auto py-2" id="add_item"  type="button">Add an Item</button>
     </div>
@@ -110,11 +114,11 @@
                             <input id="quantity_1" name="quantity_1" class="form-control" type="number" pattern="^[0-9]{0,}" title='Enter Valid Item Price' required>
                         </div>
             
-                                        
+                        <!--            
                         <div class="form-group">
                             <label for="file_1">File (to be implemented)</label>
                             <input type="file" class="form-control-file" id="file_1" name="file_1" >
-                        </div>
+                        </div>-->    
             
                     </div> 
                 </div>
@@ -175,10 +179,11 @@
             </div>
 
                             
-            <div class="form-group">
+         <!--   <div class="form-group">
                 <label for="file_">File (optional)</label>
                 <input type="file" class="form-control-file" id="file_" name="file_" " >
             </div>
+        -->
 
         </div> 
     </div>    
@@ -220,7 +225,7 @@
                 $(newElement).find("#chemical_").attr("name","chemical_"+id);
                 $(newElement).find("#unit-price_").attr("name","unit_price_"+id);
                 $(newElement).find("#quantity_").attr("name","quantity_"+id);
-                $(newElement).find("#file_").attr("name","file_"+id);
+                //$(newElement).find("#file_").attr("name","file_"+id);
                 
                 $(newElement).removeAttr("style");
                 

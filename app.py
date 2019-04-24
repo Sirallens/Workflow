@@ -1,25 +1,38 @@
-from flask import Flask, render_template, request, session, g, url_for, flash
+from flask import Flask, render_template, request, session, g, url_for, flash, send_file
 from flask import redirect
 from modules.dashboard_data import get_data
 from modules.data_process import data_processing
 from modules.templates_data import cost_centers
 from modules.authorize import request_to_authorize, authorization_process
 from modules.employee_view import employee_view_data
+from modules.download import prepare_download
 from share.db_init import db
 import models.tables as mdls
 import os
 from flask_admin import Admin
 from templates.admin import admin_custom_views as adview  # Admin custom Views
+from werkzeug.utils import secure_filename
+from io import BytesIO
 
-db_connection = 'mysql+pymysql://kayaba:kirito@192.168.1.3/proverde'
-app = Flask(__name__)
-app.secret_key = os.urandom(24)
+# DATABASE config
+DATABASE_USER = 'kayaba'
+DATANBASE_PASSWORD = 'kirito'  # if not password leave it as:  ''
+DATABASE_HOST = '192.168.1.111'
+DATABASE_NAME = 'proverde'
+DATABASE_PORT = '3307'
+
+
+db_connection = 'mysql+pymysql://%s:%s@%s:%s/%s' % (DATABASE_USER, DATANBASE_PASSWORD, DATABASE_HOST, DATABASE_PORT, DATABASE_NAME)  # NQAO configuration is as follows--> notchange+this://user:pass@host:(port if not 3306)/databasename
+app = Flask(__name__) # webapp initialization
+app.secret_key = os.urandom(24) # browser cookie setup
 app.config['SQLALCHEMY_DATABASE_URI'] = db_connection
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+ALLOWED_EXTENSIONS = set(['pdf', 'png', 'jpg', 'doc', 'docx']) # Not important for the time being
+
 db.init_app(app)
 admin = Admin(app)
 
-HOST_NAME = '192.168.1.3'   # HOST IP
+
 
 # -------------------------------login
 
@@ -69,6 +82,8 @@ def login():
 def submit():
     if 'user' in session:
         if request.method == 'POST':
+
+
             notificate_to =  data_processing(request, db, g)
     
             return render_template('success.html', user=g.user)
@@ -145,6 +160,14 @@ def Request_View():
     return redirect(url_for('login'))
 
 
+# --------------------------------------Send Downloadable file ---- 
+
+@app.route('/download-file', methods=['GET'])
+def download_file():
+    folio = request.args.get('folio')
+    download = prepare_download(db, folio)
+    return send_file(BytesIO(download['data']), attachment_filename=download['filename'], as_attachment=True)
+
 # ------------------------------------- Drop Session Log Out -------------
 @app.route('/dropssession', methods=['GET'])
 def dropsseion():
@@ -172,7 +195,7 @@ admin.add_views(adview.ItemsView(mdls.items, db.session))
 admin.add_views(adview.AuthorizationView(mdls.authorization, db.session))
 
 
-# -------------------------------App Execution[]
+# -------------------------------App Execution (For developement only, production execution is in a separated file) 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(debug=True)

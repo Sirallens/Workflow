@@ -44,7 +44,8 @@ def employee_view_data(object, folio):
     else:
         request_information['authorizer1'] = 'TBD'  # NOQA
         
-
+    if request_query.filename is not None:
+        request_information['attachement'] = True
 
 
     data['request_info'] = request_information

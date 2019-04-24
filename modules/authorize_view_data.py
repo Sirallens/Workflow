@@ -45,6 +45,9 @@ def request_to_authorize(db, g, folio):
     else:
         pass  # Should not get here 
 
+    if request.filename is not None:
+        request_information['attachement'] = True
+
     data['request_info'] = request_information
 
     for item in items_query:
