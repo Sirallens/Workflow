@@ -51,7 +51,9 @@
                                     <input id="comments" name="comments" maxlength="200" class="form-control" type="text" value="{{data['request_info']['comments']}}" readonly>
             </div>
         
-            {% if data['request_info']['attachement'] %}
+                    
+
+            {% if data['request_info']['attachment'] %}
                 <a href="/download-file?folio={{data['request_info']['folio']}}"><button class="btn btn-primary" type="button" >Download Attachment</button></a>
             {% endif %}
 

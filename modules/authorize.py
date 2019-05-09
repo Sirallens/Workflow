@@ -60,8 +60,12 @@ def request_to_authorize(db, g, folio):
     else:
         pass  # Should not get here 
 
+    
+    print(request.filename)
     print(request_information['needs_authorization'])
     
+    if request.filename is not None:
+        request_information['attachment'] = True
 
     data['request_info'] = request_information
 

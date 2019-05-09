@@ -6,18 +6,20 @@ from modules.templates_data import cost_centers
 from modules.authorize import request_to_authorize, authorization_process
 from modules.employee_view import employee_view_data
 from modules.download import prepare_download
+from modules.notification import email_test
 from share.db_init import db
 import models.tables as mdls
 import os
 from flask_admin import Admin
+from flask_mail import Mail
 from templates.admin import admin_custom_views as adview  # Admin custom Views
 from werkzeug.utils import secure_filename
 from io import BytesIO
 
 # DATABASE config
-DATABASE_USER = 'kayaba'
-DATANBASE_PASSWORD = 'kirito'  # if not password leave it as:  ''
-DATABASE_HOST = '192.168.1.111'
+DATABASE_USER = 'root'
+DATANBASE_PASSWORD = ''  # if not password leave it as:  ''
+DATABASE_HOST = '127.0.0.1'
 DATABASE_NAME = 'proverde'
 DATABASE_PORT = '3307'
 
@@ -33,9 +35,22 @@ db.init_app(app)
 admin = Admin(app)
 
 
+#--- Mail config
+
+
+app.config.update(
+    MAIL_SERVER='smtp.gmail.com',
+    MAIL_USE_SSL=False,
+    MAIL_USE_TLS=True,
+    MAIL_PORT=587,
+    MAIL_USERNAME='edward.dollars01@gmail.com',
+    MAIL_PASSWORD='Sirallens24'
+)
+
+mail = Mail(app)
+
 
 # -------------------------------login
-
 @app.route('/')
 def root_webapage():
     return redirect(url_for('login'))
@@ -64,6 +79,7 @@ def login():
                 else:
                     print("Not manager")
                     session['manager'] = False
+                    email_test(mail)
                 return redirect(url_for('dashboard'))
 
             else:
