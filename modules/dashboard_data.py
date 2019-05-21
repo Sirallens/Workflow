@@ -118,6 +118,6 @@ def get_data(object, g):
         else:
             pass  # No requests
 
-    return sorted(data, key=lambda i: i['folio'], reverse=False) 
+    return sorted(data, key=lambda i: i['authorization'], reverse=True) 
 
 

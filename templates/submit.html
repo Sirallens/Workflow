@@ -122,8 +122,17 @@
             
                     </div> 
                 </div>
-        </div>  
+
+               
+        </div>
+
+        <div class="container py-3">
+                <button class="btn btn-lg btn-primary col-2  mr-auto py-2" id="remove_last"  type="button">Remove</button>
+            </div>
+
+
         <div class="row py-3">
+            
                 <button type="submit" class="btn btn-lg btn-primary btn-block form-control mx-auto py-auto"
                  style="width: 200px;">Submit</button>
         </div>
@@ -207,7 +216,12 @@
 
 
             $('#remove_item').click(function(){
-                nextElement($('#item-blueprint'));
+                if(current_id > 1)
+                {
+                    $("#item_"+current_id).remove()
+                    current_id =+ 1;
+                }
+
             })
 
 
@@ -225,7 +239,7 @@
                 $(newElement).find("#chemical_").attr("name","chemical_"+id);
                 $(newElement).find("#unit-price_").attr("name","unit_price_"+id);
                 $(newElement).find("#quantity_").attr("name","quantity_"+id);
-                //$(newElement).find("#file_").attr("name","file_"+id);
+                
                 
                 $(newElement).removeAttr("style");
                 
@@ -243,6 +257,10 @@
         });
             
         
+        function delete_item()
+        {
+
+        }
     
     
     

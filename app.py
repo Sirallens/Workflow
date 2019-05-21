@@ -79,7 +79,7 @@ def login():
                 else:
                     print("Not manager")
                     session['manager'] = False
-                    email_test(mail)
+                    # email_test(mail)
                 return redirect(url_for('dashboard'))
 
             else:
